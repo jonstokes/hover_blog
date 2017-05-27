@@ -11,7 +11,7 @@ end
 gem 'rails', '~> 5.1.1'
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
-gem 'graphql-rb'
+gem 'graphql'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
