@@ -10,9 +10,7 @@ const _ = require('lodash')
 const fs = require('fs')
 const request = require('request')
 
-const Logger = require('./logger')
-const schema = require('config/schema')
-const db = require('db/database').db
+const Logger = require.main.require('./../hoverBoard/logger')
 
 module.exports = class App {
   constructor({ secret, relay, api }) {

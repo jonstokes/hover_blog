@@ -17,11 +17,11 @@ const config = {
   api: {
     serverUrl: 'http://localhost',
     port: apiPort,
-    endpoints: {
-      graphQL: '/graphQL',
-      login: '/login'
-      logout: '/logout'
-    }
+    endpoints: [
+      '/graphQL',
+      '/login',
+      '/logout'
+    ]
   }
 }
 
