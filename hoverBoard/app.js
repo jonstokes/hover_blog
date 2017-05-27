@@ -44,11 +44,6 @@ module.exports = class App {
     }))
     relay.server.use('/', express.static(path.join(__dirname, '../build')))
 
-    // Prepare passport middelware
-    relay.server.use(flash())
-    relay.server.use(passport.initialize());
-    relay.server.use(passport.session());
-
     // Load environment-specific middleware
     relay.middleware.forEach((el) => { relay.server.use(el) })
 
