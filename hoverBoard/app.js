@@ -1,6 +1,5 @@
 const express = require('express')
-const flash = require('connect-flash')
-const session = require('express-session')
+//const session = require('express-session')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const uuid = require('node-uuid')

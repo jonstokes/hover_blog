@@ -5,8 +5,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var express = require('express');
-var flash = require('connect-flash');
-var session = require('express-session');
+//const session = require('express-session')
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var uuid = require('node-uuid');

@@ -62,7 +62,7 @@ var _chalk2 = _interopRequireDefault(_chalk);
 
 var _utilities = require('graphql/utilities');
 
-var _schema = require('../server/config/schema');
+var _schema = require('server/config/schema');
 
 var _schema2 = _interopRequireDefault(_schema);
 
