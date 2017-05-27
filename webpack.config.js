@@ -132,7 +132,6 @@ module.exports = {
   resolve: {
     modules: [
       path.resolve('./client'),
-      path.resolve('./server'),
       path.resolve('./hoverBoard'),
       path.resolve('./node_modules')
     ]
