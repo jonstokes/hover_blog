@@ -33,6 +33,7 @@ module.exports = class App {
     // Logging
     relay.server.use(morgan('combined', {stream: accessLogStream}))
 
+    /* This stuff may not work with the proxy
     // Load shared middleware
     relay.server.use(bodyParser.json()) // for parsing application/json
     relay.server.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
@@ -42,17 +43,19 @@ module.exports = class App {
       genid: (req) => uuid.v4(),
       secret: this.secret
     }))
+    */
     relay.server.use('/', express.static(path.join(__dirname, '../build')))
 
     // Load environment-specific middleware
     relay.middleware.forEach((el) => { relay.server.use(el) })
 
-    // Set up api proxy
-    relay.server.use(api.endpoints.graphQL, graphQLHTTP((req) => {
-      const context = { user: req.user, session: req.session }
-
-      return _.extend(graphQL.requestOptions, { schema, context})
-    }))
+    // Set up api proxy endpoints
+    api.endpoints.forEach((endpoint) => {
+      relay.server.use(endpoint, function(req, res) {
+        var url = `${api.serverUrl}:${api.port}` + req.url;
+        req.pipe(request(url)).pipe(res);
+      });
+    })
   }
 
   routing() {
