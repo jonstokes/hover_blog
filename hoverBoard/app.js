@@ -1,22 +1,22 @@
-import express from 'express'
-import flash from 'connect-flash'
-import session from 'express-session'
-import morgan from 'morgan'
-import graphQLHTTP from 'express-graphql'
-import bodyParser from 'body-parser'
-import uuid from 'node-uuid'
-import passport from 'passport'
-import { Strategy } from 'passport-local'
-import path from 'path'
-import chalk from 'chalk'
-import _ from 'lodash'
-import fs from 'fs'
+const express = require('express')
+const flash = require('connect-flash')
+const session = require('express-session')
+const morgan = require('morgan')
+const graphQLHTTP = require('express-graphql')
+const bodyParser = require('body-parser')
+const uuid = require('node-uuid')
+const passport = require('passport')
+const Strategy = require('passport-local').Strategy
+const path = require('path')
+const chalk = require('chalk')
+const _ = require('lodash')
+const fs = require('fs')
 
-import Logger from 'hoverBoard/logger'
-import schema from 'config/schema'
-import { db } from 'db/database'
+const Logger = require('./logger')
+const schema = require('config/schema')
+const db = require('db/database').db
 
-export default class App {
+module.exports = class App {
   constructor({ secret, relay, graphQL }) {
     this.secret = secret
     this.relay = relay
