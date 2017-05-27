@@ -2,35 +2,32 @@ const express = require('express')
 const flash = require('connect-flash')
 const session = require('express-session')
 const morgan = require('morgan')
-const graphQLHTTP = require('express-graphql')
 const bodyParser = require('body-parser')
 const uuid = require('node-uuid')
-const passport = require('passport')
-const Strategy = require('passport-local').Strategy
 const path = require('path')
 const chalk = require('chalk')
 const _ = require('lodash')
 const fs = require('fs')
+const request = require('request')
 
 const Logger = require('./logger')
 const schema = require('config/schema')
 const db = require('db/database').db
 
 module.exports = class App {
-  constructor({ secret, relay, graphQL }) {
+  constructor({ secret, relay, api }) {
     this.secret = secret
     this.relay = relay
-    this.graphQL = graphQL
+    this.api = api
 
     this.middleware()
-    this.passport()
     this.routing()
 
     this.listen = this.listen.bind(this)
   }
 
   middleware() {
-    const { relay, graphQL } = this
+    const { relay, api } = this
     const accessLogStream = fs.createWriteStream(`log/${process.env.NODE_ENV}.log`, {flags: 'a'})
 
     // Logging
@@ -55,41 +52,11 @@ module.exports = class App {
     // Load environment-specific middleware
     relay.middleware.forEach((el) => { relay.server.use(el) })
 
-    // Set up graphql
-    graphQL.server.use(graphQL.endpoint, graphQLHTTP((req) => {
+    // Set up api proxy
+    relay.server.use(api.endpoints.graphQL, graphQLHTTP((req) => {
       const context = { user: req.user, session: req.session }
 
       return _.extend(graphQL.requestOptions, { schema, context})
-    }))
-  }
-
-  passport() {
-    const { relay } = this
-
-    passport.use(new Strategy({
-        passReqToCallback : true,
-        usernameField: 'email',
-        passwordField: 'password'
-      },
-      (req, username, password, done) => {
-        const user = db.getUser('1')
-        Logger.log('Local strategy returning user', user)
-        return done(null, user)
-      }
-    ))
-
-    passport.serializeUser((user, done) => {
-      return done(null, user.id)
-    })
-
-    passport.deserializeUser((id, done) => {
-      return done(null, db.getUser(id))
-    })
-
-    relay.server.use('/login', passport.authenticate('local', {
-      successRedirect: '/',
-      failureRedirect: '/login',
-      failureFlash: true
     }))
   }
 
@@ -98,14 +65,7 @@ module.exports = class App {
   }
 
   listen() {
-    const { relay, graphQL } = this
-
-    // If the graphql server is on a separate port, make it listen on that port.
-    if (graphQL.port && (graphQL.port != relay.port)) {
-      graphQL.server.listen(graphQL.port, () =>
-        console.log(chalk.green(`GraphQL is listening on port ${graphQL.port}`))
-      );
-    }
+    const { relay } = this
 
     return relay.server.listen(relay.port, () =>
       console.log(chalk.green(`Relay is listening on port ${relay.port}`))
