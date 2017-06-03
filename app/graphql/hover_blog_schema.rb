@@ -12,4 +12,16 @@ HoverBlogSchema = GraphQL::Schema.define do
 
     Database.send("get_#{type_name}", item_id)
   }
+
+  resolve_type ->(obj, ctx) {
+    case obj
+    when User
+      Types::UserType
+    when Feature
+      Types::FeatureType
+    else
+      raise("Unexpected object: #{obj}")
+    end
+  }
+
 end

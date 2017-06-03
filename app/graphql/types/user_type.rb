@@ -1,5 +1,7 @@
 Types::UserType = GraphQL::ObjectType.define do
   name "User"
+  global_id_field :id
+
   field :id, !types.ID
   field :username, !types.String
   field :website, !types.String
@@ -8,4 +10,6 @@ Types::UserType = GraphQL::ObjectType.define do
       Database.get_features
     }
   end
+
+  implements GraphQL::Relay::Node.interface
 end
