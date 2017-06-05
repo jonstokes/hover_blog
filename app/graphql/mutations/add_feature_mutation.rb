@@ -30,6 +30,7 @@ AddCommentMutation = GraphQL::Relay::Mutation.define do
 
     response = {
       viewer: viewer,
+      featuresConnection: range_add.connection,
       featureEdge: range_add.edge,
     }
   }
