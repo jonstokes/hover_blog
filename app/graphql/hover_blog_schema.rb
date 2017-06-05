@@ -1,5 +1,6 @@
 HoverBlogSchema = GraphQL::Schema.define do
-  query(Types::QueryType)
+  query Types::QueryType
+  mutation Types::MutationType
 
   id_from_object ->(object, type_definition, query_ctx) {
     # Call your application's UUID method here
