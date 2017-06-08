@@ -1,4 +1,4 @@
-AddFeatureMutation = GraphQL::Relay::Mutation.define do
+Mutations::AddFeatureMutation = GraphQL::Relay::Mutation.define do
   # Used to name derived types, eg `"AddCommentInput"`:
   name  'AddFeature'
 
@@ -12,8 +12,8 @@ AddFeatureMutation = GraphQL::Relay::Mutation.define do
   # On the client-side this would be configured
   # as RANGE_ADD mutation, so our returned fields
   # must conform to that API.
-  return_field :featureEdge, FeatureType.edge_type
-  return_field :viewer, UserType
+  return_field :featureEdge, Types::FeatureType.edge_type
+  return_field :viewer, Types::UserType
 
   resolve ->(object, inputs, ctx) {
     viewer = Database.get_user(1)
