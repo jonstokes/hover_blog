@@ -12,6 +12,7 @@ Mutations::AddFeatureMutation = GraphQL::Relay::Mutation.define do
   # On the client-side this would be configured
   # as RANGE_ADD mutation, so our returned fields
   # must conform to that API.
+  return_field :featuresConnection, Types::FeatureType.connection_type
   return_field :featureEdge, Types::FeatureType.edge_type
   return_field :viewer, Types::UserType
 
@@ -30,7 +31,7 @@ Mutations::AddFeatureMutation = GraphQL::Relay::Mutation.define do
 
     response = {
       viewer: viewer,
-      featureConnection: range_add.connection,
+      featuresConnection: range_add.connection,
       featureEdge: range_add.edge,
     }
   }
