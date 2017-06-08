@@ -1,5 +1,5 @@
 Mutations::AddFeatureMutation = GraphQL::Relay::Mutation.define do
-  # Used to name derived types, eg `"AddCommentInput"`:
+  # Used to name derived types, eg `"AddFeatureInput"`:
   name  'AddFeature'
 
   # Accessible from `inputs` in the resolve function:
@@ -30,7 +30,7 @@ Mutations::AddFeatureMutation = GraphQL::Relay::Mutation.define do
 
     response = {
       viewer: viewer,
-      featuresConnection: range_add.connection,
+      featureConnection: range_add.connection,
       featureEdge: range_add.edge,
     }
   }

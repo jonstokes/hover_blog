@@ -18,9 +18,11 @@ class Database
     end
 
     def add_feature(name, description, url)
-      new_feature = Feature.new(curr_features, name, description, url)
+      @curr_features ||= 9
+
+      new_feature = Feature.new(@curr_features, name, description, url)
       features.push(new_feature)
-      curr_features += 1
+      @curr_features += 1
       new_feature
     end
 
