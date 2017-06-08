@@ -8,7 +8,7 @@ Types::QueryType = GraphQL::ObjectType.define do
   field :nodes, GraphQL::Relay::Node.plural_field
 
   field :viewer do
-    type UserType
+    type Types::UserType
     resolve ->(obj, args, ctx) { Database.get_user(1) }
   end
 end
