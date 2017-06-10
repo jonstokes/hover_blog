@@ -1,19 +1,40 @@
 /* eslint-disable no-console */
-import path from 'path';
-import fs from 'fs';
-import { graphql } from 'graphql';
-import chalk from 'chalk';
-import { introspectionQuery, printSchema } from 'graphql/utilities';
-import schema from '../data/schema';
+const chalk = require('chalk');
+const fetch = require('node-fetch');
+const fs = require('fs');
+const {
+  buildClientSchema,
+  introspectionQuery,
+  printSchema,
+} = require('graphql/utilities');
+const path = require('path');
+const schemaPath = path.join(__dirname, '../data/schema');
 
-const jsonFile = path.join(__dirname, '../data/schema.json');
-const graphQLFile = path.join(__dirname, '../data/schema.graphql');
+const SERVER = 'http://localhost:8000/graphql';
 
 async function updateSchema() {
   try {
-    const json = await graphql(schema, introspectionQuery);
-    fs.writeFileSync(jsonFile, JSON.stringify(json, null, 2));
-    fs.writeFileSync(graphQLFile, printSchema(schema));
+    // Save JSON of full schema introspection for Babel Relay Plugin to use
+    fetch(SERVER, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({'query': introspectionQuery}),
+    }).then(res => res.json()).then(schemaJSON => {
+      fs.writeFileSync(
+        `${schemaPath}.json`,
+        JSON.stringify(schemaJSON, null, 2)
+      );
+
+      // Save user readable type system shorthand of schema
+      const graphQLSchema = buildClientSchema(schemaJSON.data);
+      fs.writeFileSync(
+        `${schemaPath}.graphql`,
+        printSchema(graphQLSchema)
+      );
+    });
     console.log(chalk.green('Schema has been regenerated'));
   } catch (err) {
     console.error(chalk.red(err.stack));
