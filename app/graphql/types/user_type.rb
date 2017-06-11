@@ -7,6 +7,8 @@ Types::UserType = GraphQL::ObjectType.define do
   field :website, !types.String
 
   connection :features, Types::FeatureType.connection_type do
+    argument :first, types.Int
+
     resolve ->(user, args, ctx) {
       Database.get_features
     }

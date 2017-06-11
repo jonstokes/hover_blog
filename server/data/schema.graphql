@@ -82,7 +82,6 @@ type Query {
 
 type User implements Node {
   features(
-    # Returns the first _n_ elements from the list.
     first: Int
 
     # Returns the elements in the list that come after the specified global ID.
