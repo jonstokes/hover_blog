@@ -4,6 +4,7 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import Button from './Button';
 import Welcome from './Welcome';
+import Page from './../client/components/Page/PageComponent'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
