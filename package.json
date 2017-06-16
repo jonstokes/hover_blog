@@ -12,7 +12,7 @@
     "clean": "rm -rf build && mkdir build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "test": "./node_modules/.bin/jest --config=./client/jest.json"
+    "test": "./node_modules/.bin/jest"
   },
   "pre-commit": "lint",
   "repository": {
@@ -53,13 +53,15 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "^6.8.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^20.0.4",
     "nodemon": "^1.11.0",
     "pre-commit": "^1.2.2",
     "react-test-renderer": "^15.6.1",
     "react-transform-catch-errors": "^1.0.2",
     "react-transform-hmr": "^1.0.4",
-    "redbox-react": "^1.3.3"
+    "redbox-react": "^1.3.3",
+    "regenerator-runtime": "^0.10.5"
   },
   "dependencies": {
     "@storybook/cli": "^3.1.2",
@@ -101,5 +103,15 @@
     "url-loader": "^0.5.7",
     "webpack": "2.2.0",
     "webpack-dev-server": "2.2.1"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/client"
+    ],
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "^.+\\.s?css$": "identity-obj-proxy",
+      "^.+\\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/src/__mocks__/fileMock.js"
+    }
   }
 }
