@@ -3,7 +3,7 @@
 import { configure } from '@storybook/react';
 
 function loadStories() {
-  require('../client/stories');
+  require('../stories');
 }
 
 configure(loadStories, module);

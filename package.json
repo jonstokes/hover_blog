@@ -87,6 +87,7 @@
     "graphql-relay": "^0.4.4",
     "html-webpack-plugin": "^2.26.0",
     "lodash": "^4.17.4",
+    "node-fetch": "^1.7.1",
     "normalize.css": "^5.0.0",
     "postcss-loader": "^1.2.1",
     "precss": "^1.4.0",
@@ -106,7 +107,7 @@
   },
   "jest": {
     "roots": [
-      "<rootDir>/client"
+      "<rootDir>/stories"
     ],
     "testEnvironment": "node",
     "moduleNameMapper": {

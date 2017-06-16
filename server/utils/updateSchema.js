@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
-const chalk = require('chalk');
-const fetch = require('node-fetch');
-const fs = require('fs');
+const chalk = require('chalk')
+const fetch = require('node-fetch')
+const fs = require('fs')
 const {
   buildClientSchema,
   introspectionQuery,
   printSchema,
-} = require('graphql/utilities');
-const path = require('path');
-const schemaPath = path.join(__dirname, '../data/schema');
+} = require('graphql/utilities')
+const path = require('path')
 
-const SERVER = 'http://localhost:8000/graphql';
+const schemaPath = path.join(__dirname, '../data/schema')
+const SERVER = 'http://localhost:8000/graphql'
 
 async function updateSchema() {
   try {
@@ -18,30 +18,30 @@ async function updateSchema() {
     fetch(SERVER, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({'query': introspectionQuery}),
-    }).then(res => res.json()).then(schemaJSON => {
+      body: JSON.stringify({ query: introspectionQuery }),
+    }).then(res => res.json()).then((schemaJSON) => {
       fs.writeFileSync(
         `${schemaPath}.json`,
         JSON.stringify(schemaJSON, null, 2)
-      );
+      )
 
       // Save user readable type system shorthand of schema
-      const graphQLSchema = buildClientSchema(schemaJSON.data);
+      const graphQLSchema = buildClientSchema(schemaJSON.data)
       fs.writeFileSync(
         `${schemaPath}.graphql`,
         printSchema(graphQLSchema)
-      );
-    });
-    console.log(chalk.green('Schema has been regenerated'));
+      )
+    })
+    console.log(chalk.green('Schema has been regenerated'))
   } catch (err) {
-    console.error(chalk.red(err.stack));
+    console.error(chalk.red(err.stack))
   }
 }
 
 // Run the function directly, if it's called from the command line
-if (!module.parent) updateSchema();
+if (!module.parent) updateSchema()
 
-export default updateSchema;
+export default updateSchema
