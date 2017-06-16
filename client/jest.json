@@ -1,0 +1,6 @@
+{
+  "verbose": true,
+  "timers": "fake",
+  "collectCoverage": false,
+  "resetModules": true
+}
